@@ -1,0 +1,3 @@
+# Your backend URL
+VITE_BACKEND_URL=http://localhost:3000
+#make sure that the url is correct
