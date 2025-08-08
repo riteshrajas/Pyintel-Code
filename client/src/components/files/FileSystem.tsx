@@ -99,6 +99,8 @@ function FileSystem() {
                                     onClick={(e) =>
                                         handleRenameFile(e, file.id)
                                     }
+                                    title="Rename file"
+                                    aria-label="Rename file"
                                 >
                                     <PiPencilSimpleFill size={18} />
                                 </button>
@@ -107,6 +109,8 @@ function FileSystem() {
                                         handleDeleteFile(e, file.id, file.name)
                                     }
                                     className="text-danger"
+                                    title="Delete file"
+                                    aria-label="Delete file"
                                 >
                                     <MdDelete size={20} />
                                 </button>
@@ -123,6 +127,7 @@ function FileSystem() {
                 })}
             </div>
             <button
+                type="button"
                 className="my-2 flex w-full justify-center rounded-md bg-primary p-2 font-bold text-black transition-all"
                 onClick={handleCreateNewFile}
             >

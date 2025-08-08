@@ -3,7 +3,6 @@ import { useFileStore } from "@/context/FileContext"
 import { useSettings } from "@/context/SettingContext"
 import { useSocket } from "@/context/SocketContext"
 import usePageEvents from "@/hooks/usePageEvents"
-import useWindowDimensions from "@/hooks/useWindowDimensions"
 import { editorThemes } from "@/resources/Themes"
 import { File } from "@/types/file"
 import { MessageEvent } from "@/types/socket"
@@ -15,13 +14,14 @@ import CodeMirror, { ViewUpdate, scrollPastEnd } from "@uiw/react-codemirror"
 import { useMemo, useState } from "react"
 import toast from "react-hot-toast"
 import { cursorTooltipBaseTheme, tooltipField } from "./tooltip"
+import PyintelLogo from "../common/PyintelLogo"
+import { HiOutlineCode } from "react-icons/hi"
 
 function Editor() {
     const { users, currentUser } = useAppContext()
     const { currentFile, setCurrentFile } = useFileStore()
     const { theme, language, fontSize } = useSettings()
     const { socket } = useSocket()
-    const { tabHeight } = useWindowDimensions()
     const [timeOut, setTimeOut] = useState(setTimeout(() => {}, 0))
     const filteredUsers = users.filter(
         (u) => u.username !== currentUser.username,
@@ -71,20 +71,101 @@ function Editor() {
     }, [language, currentFile?.name])
 
     return (
-        <CodeMirror
-            placeholder={placeholder(currentFile?.name || "")}
-            theme={editorThemes[theme]}
-            onChange={onCodeChange}
-            value={currentFile?.content}
-            extensions={getExtensions}
-            minHeight="100%"
-            maxWidth="100vw"
-            style={{
-                fontSize: fontSize + "px",
-                height: tabHeight,
-                position: "relative",
-            }}
-        />
+        <div className="h-full flex flex-col bg-surface-dark">
+            {/* Editor Header */}
+            <div className="flex items-center justify-between px-4 py-3 bg-surface-dark/80 backdrop-blur-sm border-b border-gray-700/30 relative z-10">
+                <div className="flex items-center gap-3">
+                    {/* File Icon */}
+                    <div className="flex items-center gap-2">
+                        <div className="p-1.5 bg-primary-500/10 rounded-lg border border-primary-500/20">
+                            <HiOutlineCode className="w-4 h-4 text-primary-400" />
+                        </div>
+                        <div>
+                            <h3 className="text-sm font-medium text-white">
+                                {currentFile?.name || "Untitled"}
+                            </h3>
+                            <p className="text-xs text-gray-400">
+                                {language} • {currentFile?.content?.length || 0} characters
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Status Indicators */}
+                <div className="flex items-center gap-3">
+                    {/* Active Users */}
+                    {filteredUsers.length > 0 && (
+                        <div className="flex items-center gap-2">
+                            <div className="flex -space-x-2">
+                                {filteredUsers.slice(0, 3).map((user) => (
+                                    <div
+                                        key={user.username}
+                                        className="w-6 h-6 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full border-2 border-surface-dark flex items-center justify-center text-xs font-medium text-white"
+                                        title={user.username}
+                                    >
+                                        {user.username.charAt(0).toUpperCase()}
+                                    </div>
+                                ))}
+                                {filteredUsers.length > 3 && (
+                                    <div className="w-6 h-6 bg-gray-600 rounded-full border-2 border-surface-dark flex items-center justify-center text-xs font-medium text-white">
+                                        +{filteredUsers.length - 3}
+                                    </div>
+                                )}
+                            </div>
+                            <span className="text-xs text-gray-400">
+                                {filteredUsers.length} collaborator{filteredUsers.length !== 1 ? 's' : ''}
+                            </span>
+                        </div>
+                    )}
+
+                    {/* Theme & Font Size */}
+                    <div className="text-xs text-gray-500">
+                        {theme} • {fontSize}px
+                    </div>
+
+                    {/* Pyintel Logo */}
+                    <PyintelLogo size="sm" variant="icon" animated={false} />
+                </div>
+            </div>
+
+            {/* Editor Container */}
+            <div className="flex-1 relative overflow-hidden">
+                {/* Background Grid */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:50px_50px] opacity-30"></div>
+                
+                {/* CodeMirror Editor */}
+                <div className="relative z-10 h-full">
+                    <CodeMirror
+                        placeholder={placeholder(currentFile?.name || "")}
+                        theme={editorThemes[theme]}
+                        onChange={onCodeChange}
+                        value={currentFile?.content}
+                        extensions={getExtensions}
+                        height="100%"
+                        width="100%"
+                        style={{
+                            fontSize: fontSize + "px",
+                            height: "100%",
+                        }}
+                        basicSetup={{
+                            lineNumbers: true,
+                            foldGutter: true,
+                            dropCursor: false,
+                            allowMultipleSelections: false,
+                        }}
+                    />
+                </div>
+
+                {/* Floating Elements */}
+                <div className="absolute bottom-4 right-4 flex items-center gap-2 pointer-events-none">
+                    {/* Connection Status */}
+                    <div className="flex items-center gap-2 px-3 py-1.5 bg-surface-dark/90 backdrop-blur-sm border border-gray-700/30 rounded-lg">
+                        <div className="w-2 h-2 bg-success rounded-full animate-pulse-soft"></div>
+                        <span className="text-xs text-gray-400">Connected</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }
 

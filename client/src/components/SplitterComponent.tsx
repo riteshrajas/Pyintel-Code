@@ -6,34 +6,64 @@ import Split from "react-split"
 
 function SplitterComponent({ children }: { children: ReactNode }) {
     const { isSidebarOpen } = useTabs()
-    const { isMobile, width } = useWindowDimensions()
+    const { isMobile } = useWindowDimensions()
     const { setItem, getItem } = useLocalStorage()
 
     const getGutter = () => {
         const gutter = document.createElement("div")
-        gutter.className = "h-full cursor-e-resizer hidden md:block"
-        gutter.style.backgroundColor = "#e1e1ffb3"
+        gutter.className = "h-full cursor-col-resize hidden md:block relative group"
+        
+        // Enhanced gutter styling
+        gutter.style.cssText = `
+            background: linear-gradient(to right, 
+                rgba(55, 65, 81, 0.3) 0%, 
+                rgba(20, 184, 166, 0.1) 50%, 
+                rgba(55, 65, 81, 0.3) 100%
+            );
+            border-left: 1px solid rgba(55, 65, 81, 0.3);
+            border-right: 1px solid rgba(55, 65, 81, 0.3);
+            transition: all 0.2s ease;
+            position: relative;
+        `
+        
+        // Add hover effect
+        gutter.addEventListener('mouseenter', () => {
+            gutter.style.background = 'linear-gradient(to right, rgba(20, 184, 166, 0.2) 0%, rgba(20, 184, 166, 0.4) 50%, rgba(20, 184, 166, 0.2) 100%)'
+            gutter.style.borderLeftColor = 'rgba(20, 184, 166, 0.5)'
+            gutter.style.borderRightColor = 'rgba(20, 184, 166, 0.5)'
+        })
+        
+        gutter.addEventListener('mouseleave', () => {
+            gutter.style.background = 'linear-gradient(to right, rgba(55, 65, 81, 0.3) 0%, rgba(20, 184, 166, 0.1) 50%, rgba(55, 65, 81, 0.3) 100%)'
+            gutter.style.borderLeftColor = 'rgba(55, 65, 81, 0.3)'
+            gutter.style.borderRightColor = 'rgba(55, 65, 81, 0.3)'
+        })
+        
         return gutter
     }
 
     const getSizes = () => {
-        if (isMobile) return [0, width]
+        if (isMobile || !isSidebarOpen) return [0, 100]
         const savedSizes = getItem("editorSizes")
-        let sizes = [35, 65]
+        let sizes = [25, 75] // Better default ratio
         if (savedSizes) {
-            sizes = JSON.parse(savedSizes)
+            try {
+                sizes = JSON.parse(savedSizes)
+            } catch {
+                sizes = [25, 75]
+            }
         }
-        return isSidebarOpen ? sizes : [0, width]
+        return sizes
     }
 
     const getMinSizes = () => {
-        if (isMobile) return [0, width]
-        return isSidebarOpen ? [350, 350] : [50, 0]
+        if (isMobile || !isSidebarOpen) return [0, 100]
+        return [280, 400]
     }
 
     const getMaxSizes = () => {
-        if (isMobile) return [0, Infinity]
-        return isSidebarOpen ? [Infinity, Infinity] : [0, Infinity]
+        if (isMobile || !isSidebarOpen) return [0, Infinity]
+        return [600, Infinity]
     }
 
     const handleGutterDrag = (sizes: number[]) => {
@@ -41,27 +71,30 @@ function SplitterComponent({ children }: { children: ReactNode }) {
     }
 
     const getGutterStyle = () => ({
-        width: "7px",
+        width: "6px",
         display: isSidebarOpen && !isMobile ? "block" : "none",
+        zIndex: "10",
     })
 
     return (
-        <Split
-            sizes={getSizes()}
-            minSize={getMinSizes()}
-            gutter={getGutter}
-            maxSize={getMaxSizes()}
-            dragInterval={1}
-            direction="horizontal"
-            gutterAlign="center"
-            cursor="e-resize"
-            snapOffset={30}
-            gutterStyle={getGutterStyle}
-            onDrag={handleGutterDrag}
-            className="flex h-screen min-h-screen max-w-full items-center justify-center overflow-x-hidden"
-        >
-            {children}
-        </Split>
+        <div className="h-screen bg-gradient-to-br from-dark-950 to-dark-900 overflow-hidden">
+            <Split
+                sizes={getSizes()}
+                minSize={getMinSizes()}
+                gutter={getGutter}
+                maxSize={getMaxSizes()}
+                dragInterval={1}
+                direction="horizontal"
+                gutterAlign="center"
+                cursor="col-resize"
+                snapOffset={50}
+                gutterStyle={getGutterStyle}
+                onDrag={handleGutterDrag}
+                className="flex h-full w-full"
+            >
+                {children}
+            </Split>
+        </div>
     )
 }
 
