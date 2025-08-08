@@ -25,7 +25,8 @@ function HomePage() {
             {/* Content */}
             <div className={`relative z-10 flex min-h-screen flex-col items-center justify-center transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 {/* Header Section */}
-                <div className="text-center mb-16 px-4">
+
+                <div className="text-center mb-16 px-4" style={{ marginTop: '100px' }}>
                     <div className="flex justify-center mb-8">
                         <PyintelLogo size="xl" variant="full" animated={true} />
                     </div>
@@ -92,29 +93,7 @@ function HomePage() {
                 </div>
 
                 {/* Stats Section */}
-                <div className="mt-24 w-full max-w-4xl mx-auto px-4">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                        {[
-                            { number: '10K+', label: 'Active Users' },
-                            { number: '50K+', label: 'Lines Coded' },
-                            { number: '99.9%', label: 'Uptime' },
-                            { number: '24/7', label: 'Support' }
-                        ].map((stat, index) => (
-                            <div 
-                                key={index}
-                                className="text-center group animate-fade-in-up"
-                                style={{ animationDelay: `${0.8 + index * 0.1}s` }}
-                            >
-                                <div className="text-2xl md:text-3xl font-bold gradient-text group-hover:scale-110 transition-transform duration-300">
-                                    {stat.number}
-                                </div>
-                                <div className="text-gray-400 text-sm mt-1">
-                                    {stat.label}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+              
 
                 {/* Call to Action */}
                 <div className="mt-16 text-center animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
