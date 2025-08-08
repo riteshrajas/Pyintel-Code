@@ -47,6 +47,28 @@ You can view the live preview of the project [here](https://code-sync-live.verce
 ![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
+## ☁️ Deploy (Render + Cloudflare Pages)
+
+Quickest path:
+
+- Deploy server on Render (free web service)
+  - Connect this repo, choose root as `server/`, build command `npm install && npm run build`, start command `node dist/server.js`.
+  - Set environment: `NODE_ENV=production`, `PORT=3000` (Render will override but it's fine).
+  - After deploy, copy the public URL, e.g., `https://code-sync-server.onrender.com`.
+
+- Deploy client on Cloudflare Pages
+  - Project root: `client/`; build command: `npm run build`; build output directory: `dist`.
+  - Add Pages environment variable: `VITE_BACKEND_URL` with the Render server URL.
+  - Publish. Client will use `import.meta.env.VITE_BACKEND_URL` to connect Socket.io.
+
+Alternatively, deploy both on Render:
+
+- Server: as above.
+- Client: root `client/`, build `npm ci && npm run build`, publish `dist/` as static site.
+  - Set `VITE_BACKEND_URL` to the server URL in the client service env vars.
+
+Health check: `GET /health` returns `{ status: "ok" }` from the server.
+
 ## ⚙️ Installation
 
 1. **Fork this repository:** Click the Fork button located in the top-right corner of this page to fork the repository.

@@ -217,6 +217,11 @@ app.get("/", (req: Request, res: Response) => {
 	res.sendFile(path.join(__dirname, "..", "public", "index.html"))
 })
 
+// Health check endpoint for deployments
+app.get("/health", (_req: Request, res: Response) => {
+	res.status(200).json({ status: "ok" })
+})
+
 server.listen(PORT, () => {
 	console.log(`Listening on port ${PORT}`)
 })

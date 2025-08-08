@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: code-sync-server
+    env: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install --no-audit --no-fund && npm run build
+    startCommand: node dist/server.js
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+
+  - type: static
+    name: code-sync-client
+    rootDir: client
+    buildCommand: npm install --no-audit --no-fund && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_BACKEND_URL
+        fromService:
+          type: web
+          name: code-sync-server
+          property: url

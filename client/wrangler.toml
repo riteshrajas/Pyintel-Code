@@ -1,0 +1,4 @@
+name = "code-sync-client"
+compatibility_date = "2024-05-01"
+[site]
+bucket = "dist"
