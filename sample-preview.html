@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Code Sync</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            margin: 20px;
+        }
+        
+        h1 {
+            color: #4a5568;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        p {
+            color: #718096;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .features {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .feature {
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .feature h3 {
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .demo-animation {
+            width: 50px;
+            height: 50px;
+            background: #667eea;
+            border-radius: 50%;
+            margin: 1rem auto;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="demo-animation"></div>
+        <h1>🚀 Code Sync</h1>
+        <p>Real-time collaborative code editor with live HTML preview!</p>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>⚡ Live Preview</h3>
+                <p>See your HTML changes instantly as you type</p>
+            </div>
+            
+            <div class="feature">
+                <h3>👥 Real-time Collaboration</h3>
+                <p>Code together with your team in real-time</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🎨 Beautiful Interface</h3>
+                <p>Modern, clean design for better productivity</p>
+            </div>
+        </div>
+        
+        <button class="button" onclick="changeContent()">
+            Click to Change Content!
+        </button>
+        
+        <p style="margin-top: 1rem; font-size: 0.8rem; color: #a0aec0;">
+            Try editing this HTML file and watch the preview update in real-time!
+        </p>
+    </div>
+    
+    <script>
+        function changeContent() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7'];
+            const messages = [
+                'Awesome! 🎉',
+                'Keep coding! 💻', 
+                'You\'re amazing! ⭐',
+                'HTML is fun! 🎨',
+                'Live preview rocks! 🚀'
+            ];
+            
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            document.querySelector('h1').textContent = randomMessage;
+            document.querySelector('.demo-animation').style.background = randomColor;
+            document.body.style.background = `linear-gradient(135deg, ${randomColor} 0%, #764ba2 100%)`;
+        }
+        
+        // Auto-animate on load
+        setTimeout(() => {
+            document.querySelector('.container').style.animation = 'fadeIn 1s ease-out';
+        }, 100);
+    </script>
+</body>
+</html>

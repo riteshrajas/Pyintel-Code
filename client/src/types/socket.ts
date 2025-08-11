@@ -22,6 +22,7 @@ enum MessageEvent {
     REQUEST_DRAWING = "request-drawing",
     SYNC_DRAWING = "sync-drawing",
     DRAWING_UPDATE = "drawing-update",
+    PREVIEW_UPDATED = "preview-updated",
 }
 
 interface SocketContext {

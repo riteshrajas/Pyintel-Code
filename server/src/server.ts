@@ -208,6 +208,16 @@ io.on("connection", (socket) => {
 			snapshot,
 		})
 	})
+
+	// Handle HTML preview updates
+	socket.on(MessageEvent.PREVIEW_UPDATED, ({ fileName, content }) => {
+		const roomId = getRoomId(socket.id)
+		if (!roomId) return
+		socket.broadcast.to(roomId).emit(MessageEvent.PREVIEW_UPDATED, {
+			fileName,
+			content,
+		})
+	})
 })
 
 const PORT = process.env.PORT || 4321
