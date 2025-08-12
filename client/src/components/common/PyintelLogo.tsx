@@ -49,12 +49,7 @@ const PyintelLogo = ({
         </div>
     )
 
-    const LogoText = () => (
-        <span className={`${sizes.text} font-bold bg-gradient-to-r from-primary-400 via-primary-500 to-secondary-500 bg-clip-text text-transparent ${animated ? 'transition-all duration-300' : ''} ${isHovered && animated ? 'tracking-wider' : ''}`}>
-            Pyintel
-        </span>
-    )
-
+   
     return (
         <div 
             className={`${sizes.container} flex items-center gap-3 ${className} ${animated ? 'cursor-pointer' : ''}`}
@@ -62,8 +57,6 @@ const PyintelLogo = ({
             onMouseLeave={() => setIsHovered(false)}
         >
             {(variant === 'full' || variant === 'icon') && <LogoIcon />}
-            {(variant === 'full' || variant === 'text') && <LogoText />}
-            
             {/* Animated Particles */}
             {animated && isHovered && (
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">

@@ -95,7 +95,7 @@ function Editor() {
                     {/* Editor Section */}
                     <div className="flex flex-col bg-surface-dark h-full">
                         {/* Editor Header (Sticky) */}
-                        <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 bg-surface-dark/80 backdrop-blur-sm border-b border-gray-700/30 relative z-10">
+                        <div className="sticky top-0 flex-shrink-0 flex items-center justify-between px-4 py-3 bg-surface-dark/95 backdrop-blur-sm border-b border-gray-700/30 z-50">
                             <div className="flex items-center gap-3">
                                 {/* File Icon */}
                                 <div className="flex items-center gap-2">
@@ -208,7 +208,7 @@ function Editor() {
                 /* Single Editor View */
                 <div className="flex flex-col bg-surface-dark h-full w-full">
                     {/* Editor Header (Sticky) */}
-                    <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 bg-surface-dark/80 backdrop-blur-sm border-b border-gray-700/30 relative z-10">
+                    <div className="sticky top-0 flex-shrink-0 flex items-center justify-between px-4 py-3 bg-surface-dark/95 backdrop-blur-sm border-b border-gray-700/30 z-50">
                         <div className="flex items-center gap-3">
                             {/* File Icon */}
                             <div className="flex items-center gap-2">
