@@ -6,6 +6,9 @@ import { editorThemes } from "@/resources/Themes"
 import { langNames } from "@uiw/codemirror-extensions-langs"
 import { ChangeEvent, useEffect } from "react"
 
+// Filter out unwanted languages
+const filteredLangNames = langNames.filter(lang => lang.toLowerCase() !== 'brainfuck')
+
 function SettingsTab() {
     const {
         theme,
@@ -84,7 +87,7 @@ function SettingsTab() {
             <Select
                 onChange={handleLanguageChange}
                 value={language}
-                options={langNames}
+                options={filteredLangNames}
                 title="Language"
             />
             {/* Show GitHub corner option */}

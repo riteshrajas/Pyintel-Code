@@ -64,6 +64,13 @@ function Editor() {
             cursorTooltipBaseTheme,
             scrollPastEnd(),
         ]
+        
+        // Filter out unwanted languages
+        if (language.toLowerCase() === 'brainfuck') {
+            // Skip loading brainfuck language extension
+            return extensions
+        }
+        
         const langExt = loadLanguage(language.toLowerCase() as LanguageName)
         if (langExt) {
             extensions.push(langExt)
